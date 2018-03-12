@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.yhy.badge.simple.MainActivity">
+
+    <com.yhy.badge.BadgeTextView
+        android:id="@+id/btv_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:bdg_bg_color="#f20"
+        app:bdg_text_color="#fff" />
+
+    <RadioGroup
+        android:id="@+id/rg_test"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal">
+
+        <com.yhy.badge.BadgeRadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="@drawable/text_primary_accent_dark_selector"
+            app:bdg_drag_enable="true" />
+
+        <com.yhy.badge.BadgeRadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="列表"
+            android:textColor="@drawable/text_primary_accent_dark_selector"
+            app:bdg_drag_enable="true" />
+
+        <com.yhy.badge.BadgeRadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:button="@null"
+            android:gravity="center"
+            android:text="中心"
+            android:textColor="@drawable/text_primary_accent_dark_selector"
+            app:bdg_drag_enable="true" />
+    </RadioGroup>
+</LinearLayout>
