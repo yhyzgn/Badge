@@ -26,7 +26,6 @@ publishing {
         mavenJava(MavenPublication) {
             group = 'com.github.yhyzgn.Badge'
             artifactId = "badge-compiler"
-            version = "1.0.0"
 
             from components.java
         }

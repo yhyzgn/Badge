@@ -46,12 +46,42 @@ dependencies {
     annotationProcessor project(':badge-compiler')
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            group = 'com.github.yhyzgn.Badge'
-            artifactId = "badge"
-            version = "1.0.0"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                group = 'com.github.yhyzgn.Badge'
+                artifactId = "badge"
+
+                // Adds javadocs and sources as separate jars.
+                artifact androidJavadocsJar
+                artifact(sourceJar)
+
+                pom {
+                    name = "Widgets"
+                    description = 'Android UI Components.'
+                    url = 'https://github.com/yhyzgn/Badge'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'yhyzgn'
+                            name = 'yhyzgn'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git@github.com/yhyzgn/Badge.git'
+                        developerConnection = 'scm:git@github.com/yhyzgn/Badge.git'
+                        url = 'https://github.com/yhyzgn/Badge'
+                    }
+                }
+            }
         }
     }
 }
