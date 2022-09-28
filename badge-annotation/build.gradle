@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 group = 'com.github.yhyzgn.Badge'
 
 dependencies {
-    compileOnly 'com.google.android:android:4.1.1.4'
+    implementation 'com.google.android:android:4.1.1.4'
 }
 
 sourceCompatibility = "11"
