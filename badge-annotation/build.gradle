@@ -4,11 +4,10 @@ apply plugin: 'maven-publish'
 group = 'com.github.yhyzgn.Badge'
 
 dependencies {
-    implementation 'com.google.android:android:4.1.1.4'
 }
 
-sourceCompatibility = "11"
-targetCompatibility = "11"
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -16,11 +15,19 @@ tasks.withType(JavaCompile) {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            group = 'com.github.yhyzgn.Badge'
-            artifactId = "badge-annotation"
-
-            from components.java
+        release(MavenPublication) {
+            groupId = "${group}"
+            artifactId = "${project.name}"
+            afterEvaluate {
+                from components.java
+            }
+        }
+    }
+    // 发布的仓库配置
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://jitpack.io"
         }
     }
 }

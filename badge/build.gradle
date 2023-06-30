@@ -10,8 +10,6 @@ android {
     defaultConfig {
         minSdk 23
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -24,83 +22,55 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
-    lintOptions {
-        checkReleaseBuilds false
+    publishing {
+        singleVariant("release")
+    }
+
+    lint {
         abortOnError false
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 
     api project(':badge-annotation')
+    testImplementation 'org.testng:testng:6.9.6'
     annotationProcessor project(':badge-compiler')
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main
+    archiveClassifier = 'sources'
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = "${group}"
+            artifactId = "${project.name}"
+            afterEvaluate {
                 from components.release
-
-                group = 'com.github.yhyzgn.Badge'
-                artifactId = "badge"
-
-                // Adds javadocs and sources as separate jars.
-                artifact androidJavadocsJar
-                artifact(sourceJar)
-
-                pom {
-                    name = "Widgets"
-                    description = 'Android UI Components.'
-                    url = 'https://github.com/yhyzgn/Badge'
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'yhyzgn'
-                            name = 'yhyzgn'
-                        }
-                    }
-                    scm {
-                        connection = 'scm:git@github.com/yhyzgn/Badge.git'
-                        developerConnection = 'scm:git@github.com/yhyzgn/Badge.git'
-                        url = 'https://github.com/yhyzgn/Badge'
-                    }
-                }
             }
         }
     }
-}
-
-task androidJavadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    android.libraryVariants.all { variant ->
-        if (variant.name == 'release') {
-            owner.classpath += variant.javaCompileProvider.get().classpath
+    // 发布的仓库配置
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://jitpack.io"
         }
     }
-    exclude '**/R.html', '**/R.*.html', '**/index.html'
-}
-
-task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    archiveClassifier.set('javadoc')
-    from androidJavadocs.destinationDir
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier "sources"
 }
